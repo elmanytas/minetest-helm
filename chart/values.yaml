@@ -80,11 +80,17 @@ gameUrl: https://content.minetest.net/packages/Wuzzy/mineclone2
 # schedulerName:
 
 ## Kubernetes configuration
-## Use LoadBalancer or ClusterIP
+## For minikube, set this to NodePort, elsewhere use LoadBalancer or ClusterIP
 ##
 service:
-  # UDP
+  type: LoadBalancer
+  ## Public UDP Port
+  ##
   port: 30000
+  ## Enable client source IP preservation
+  ## ref http://kubernetes.io/docs/tasks/access-application-cluster/create-external-load-balancer/#preserving-the-client-source-ip
+  ##
+  externalTrafficPolicy: Cluster
 
 ## Configure resource requests and limits
 ## ref: http://kubernetes.io/docs/user-guide/compute-resources/
