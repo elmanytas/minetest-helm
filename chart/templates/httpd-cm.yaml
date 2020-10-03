@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: httpd-cm
+data:
+  index.html: <html>
+                <body>
+                  <p>Hi!</p>
+                  <p>This <a href="https://www.minetest.net/">minetest server</a>
+                     has been configured in port {{ .Values.minetestPort }}. Use
+                     the <a href="https://www.minetest.net/downloads/">minetest
+                     client</a> to login and, have fun!</p>
+                  <p>
+{{- if .Values.setGame }}
+                  <p>The world has been generated using
+                     <a href="{{ .Values.gameUrl }}">this game</a></p>
+{{- end }}
+                </body>
+              </html>

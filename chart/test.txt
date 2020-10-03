@@ -1,0 +1,14 @@
+ax_packets_per_iteration = 1024
+
+## Game
+
+#    Default game when creating a new world.
+#    This will be overridden when creating a world from the main menu.
+#    type: string
+# default_game = minetest
+
+#    Message of the day displayed to players connecting.
+#    type: string
+# motd =
+
+

@@ -1,0 +1,7 @@
+After all services are running, your minetest server is running in port {{ .Values.minetestPort }}.
+
+{{ if .Values.ingress.enabled }}
+You can access the customized guide of your minetest instance here:
+
+    http://{{ .Values.ingress.hostname }}
+{{ end }}

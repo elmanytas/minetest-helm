@@ -1,0 +1,107 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "minetest.fullname" . }}
+spec:
+  selector:
+    matchLabels:
+      app: {{ include "minetest.fullname" . }}
+      component: minetest
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: {{ include "minetest.fullname" . }}
+        component: minetest
+    spec:
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- if .Values.backup }}
+      initContainers:
+      - name: backup
+        image: busybox
+        command:
+          - sh
+          - -c
+          - if [ -e '/config/.minetest' ]; then
+              cd /config;
+              tar -zcvf $(date +%Y%m%d%H%M).minetest.tgz .minetest;
+            fi
+        volumeMounts:
+          - name: minetest-config
+            mountPath: /config
+      {{- end }}
+      {{- if .Values.setGame }}
+      - name: setgame
+        image: kubeless/unzip
+        command:
+          - sh
+          - -c
+          - mkdir -p /config/.minetest/games/$(echo {{ .Values.gameUrl }} | awk -F "/" '{print $(NF)}');
+            cd       /config/.minetest/games/$(echo {{ .Values.gameUrl }} | awk -F "/" '{print $(NF)}');
+            curl -L -o game.zip {{ .Values.gameUrl }}/download;
+            unzip game.zip;
+            mkdir -p /config/.minetest/main-config/;
+            echo "default_game = $(echo {{ .Values.gameUrl }} | awk -F "/" '{print $(NF)}')" > /config/.minetest/main-config/minetest.conf
+        volumeMounts:
+          - name: minetest-config
+            mountPath: /config
+      {{- end }}
+      containers:
+      - name: minetest
+        image: {{ .Values.image.minetest.repository }}:{{ default .Values.minetestVersion .Values.image.minetest.tag }}
+        imagePullPolicy: Always
+        volumeMounts:
+          - name: minetest-config
+            mountPath: /config/.minetest
+            subPath: .minetest
+        env:
+          - name: TZ
+            value: "{{ default .Values.minetestTimezone }}"
+          - name: CLI_ARGS
+            value: "{{ .Values.cliArgs }}"
+        ports:
+          - name: minetest
+            containerPort: 30000
+            hostPort: {{ .Values.minetestPort }}
+            protocol: UDP
+        {{- with .Values.resources }}
+        resources:
+        {{- .|toYaml|nindent 10}}
+        {{- end }}
+      volumes:
+        - name: minetest-config
+          persistentVolumeClaim:
+            claimName: {{ include "minetest.fullname" . }}-config
+      restartPolicy: Always
+      terminationGracePeriodSeconds: 60
+  strategy:
+    type: Recreate
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "minetest.fullname" . }}
+  labels:
+    app: {{ include "minetest.fullname" . }}
+    component: minetest
+spec:
+  selector:
+    app: {{ include "minetest.fullname" . }}
+    component: minetest
+  ports:
+  - name: minetest
+    port: {{ .Values.minetestPort }}
+    protocol: UDP

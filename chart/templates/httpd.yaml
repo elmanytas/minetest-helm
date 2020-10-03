@@ -1,0 +1,89 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "minetest.fullname" . }}-httpd
+spec:
+  selector:
+    matchLabels:
+      app: {{ include "minetest.fullname" . }}
+      component: httpd
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: {{ include "minetest.fullname" . }}
+        component: httpd
+      annotations:
+        checksum/config: {{ include (print $.Template.BasePath "/httpd-cm.yaml") . | sha256sum }}
+    spec:
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      containers:
+      - name: httpd
+        image: httpd:latest
+        imagePullPolicy: IfNotPresent
+        volumeMounts:
+          - name: httpd-config
+            mountPath: /usr/local/apache2/htdocs
+        ports:
+          - name: httpd
+            containerPort: 80
+            protocol: TCP
+      volumes:
+        - name: httpd-config
+          configMap:
+            name: httpd-cm
+      restartPolicy: Always
+      terminationGracePeriodSeconds: 60
+  strategy:
+    type: RollingUpdate
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "minetest.fullname" . }}-httpd
+  labels:
+    app: {{ include "minetest.fullname" . }}
+    component: httpd
+spec:
+  selector:
+    app: {{ include "minetest.fullname" . }}
+    component: httpd
+  ports:
+  - name: httpd
+    port: 80
+    protocol: TCP
+
+{{- if .Values.ingress.enabled }}
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: {{ include "minetest.fullname" . }}-httpd
+  {{- with .Values.ingress.annotations }}
+  annotations:
+    {{- toYaml . | nindent 8 }}
+  {{- end }}
+spec:
+  rules:
+  - host: {{ .Values.ingress.hostname }}
+    http:
+      paths:
+      - path: /
+        pathType: ImplementationSpecific
+        backend:
+          serviceName: {{ include "minetest.fullname" . }}-httpd
+          servicePort: 80
+{{- end }}
