@@ -129,7 +129,7 @@ ingress:
   enabled: true
 
   ## When the ingress is enabled, a host pointing to this will be created
-  hostname: minetest.ferrergarcia.es
+  hostname: localhost
 
   ## Ingress annotations done as key:value pairs
   ## For a full list of possible ingress annotations, please see
