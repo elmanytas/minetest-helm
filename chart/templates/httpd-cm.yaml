@@ -11,6 +11,9 @@ data:
                      the <a href="https://www.minetest.net/downloads/">minetest
                      client</a> to login and, have fun!</p>
                   <p>
+                  <img src="http://www.ocsmag.com/wp-content/uploads/2016/04/fig14a_PublicServers.png" />
+                  <p>
+                  <!--http://www.ocsmag.com/2016/04/04/mining-for-education/-->
 {{- if .Values.setGame }}
                   <p>The world has been generated using
                      <a href="{{ .Values.gameUrl }}">this game</a></p>

@@ -83,7 +83,7 @@ gameUrl: https://content.minetest.net/packages/Wuzzy/mineclone2
 ## For minikube, set this to NodePort, elsewhere use LoadBalancer or ClusterIP
 ##
 service:
-  type: LoadBalancer
+  type: ClusterIP
   ## Public UDP Port
   ##
   port: 30000
