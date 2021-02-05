@@ -60,7 +60,7 @@ minetestTimezone: Europe/London
 cliArgs: ""
 
 ## Do a backup before minetest start
-backup: true
+backup: false
 
 ## Lauch specific game
 ## Go to https://content.minetest.net/packages/?type=game, choose a game and
@@ -69,10 +69,41 @@ backup: true
 ##
 
 setGame: true
+#gameUrl: https://content.minetest.net/packages/Wuzzy/realtest_mt5
 gameUrl: https://content.minetest.net/packages/Wuzzy/mineclone2
 #gameUrl: https://content.minetest.net/packages/Wuzzy/tutorial
 # minetest.conf except default_game
 #gameConfig: []
+
+setOptions: false
+#    Enable players getting damage and dying.
+#    type: bool
+enableDamage: true
+
+#    Enable creative mode for new created maps.
+#    type: bool
+creativeMode: false
+
+#    Player is able to fly without being affected by gravity.
+#    This requires the "fly" privilege on the server.
+#    type: bool
+freeMode: false
+
+#    Fast movement (via the "special" key).
+#    This requires the "fast" privilege on the server.
+#    type: bool
+fastMode: true
+
+#    Automatically jump up single-node obstacles.
+#    type: bool
+autojump: true
+
+#    Controls length of day/night cycle.
+#    Examples:
+#    72 = 20min, 360 = 4min, 1 = 24hour, 0 = day/night/whatever stays unchanged.
+#    type: int
+#time_speed = 72
+timeSpeed: 72
 
 ## Use an alternate scheduler, e.g. "stork".
 ## ref: https://kubernetes.io/docs/tasks/administer-cluster/configure-multiple-schedulers/
@@ -126,7 +157,7 @@ podAnnotations: {}
 ##
 ingress:
   ## Set to true to enable ingress record generation
-  enabled: true
+  enabled: false
 
   ## When the ingress is enabled, a host pointing to this will be created
   hostname: localhost

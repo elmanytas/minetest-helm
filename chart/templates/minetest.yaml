@@ -26,8 +26,8 @@ spec:
       tolerations:
         {{- toYaml . | nindent 8 }}
       {{- end }}
-      {{- if .Values.backup }}
       initContainers:
+      {{- if .Values.backup }}
       - name: backup
         image: busybox
         command:
@@ -53,6 +53,25 @@ spec:
             unzip game.zip;
             mkdir -p /config/.minetest/main-config/;
             echo "default_game = $(echo {{ .Values.gameUrl }} | awk -F "/" '{print $(NF)}')" > /config/.minetest/main-config/minetest.conf
+        volumeMounts:
+          - name: minetest-config
+            mountPath: /config
+      {{- end }}
+      {{- if .Values.setOptions }}
+      - name: options
+        image: kubeless/unzip
+        command:
+          - sh
+          - -c
+          - |
+            echo """
+            enable_damage = {{ .Values.enableDamage }}
+            creative_mode = {{ .Values.creativeMode }}
+            free_mode = {{ .Values.freeMode }}
+            fast_mode = {{ .Values.fastMode }}
+            autojump = {{ .Values.autojump }}
+            time_speed = {{ .Values.timeSpeed }}
+            """ >> /config/.minetest/main-config/minetest.conf
         volumeMounts:
           - name: minetest-config
             mountPath: /config
