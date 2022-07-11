@@ -53,7 +53,7 @@ fullnameOverride: {}
 minetestPort: 30000
 
 ## Minetest timezone
-minetestTimezone: Europe/London
+minetestTimezone: Europe/Madrid
 
 ## Cli Arguments
 # cliArgs: "--gameid minetest"
@@ -68,7 +68,7 @@ backup: false
 ## autogenerate a world with default minetest game.
 ##
 
-setGame: true
+setGame: false
 #gameUrl: https://content.minetest.net/packages/Wuzzy/realtest_mt5
 gameUrl: https://content.minetest.net/packages/Wuzzy/mineclone2
 #gameUrl: https://content.minetest.net/packages/Wuzzy/tutorial
@@ -105,11 +105,6 @@ autojump: true
 #time_speed = 72
 timeSpeed: 72
 
-## Use an alternate scheduler, e.g. "stork".
-## ref: https://kubernetes.io/docs/tasks/administer-cluster/configure-multiple-schedulers/
-##
-# schedulerName:
-
 ## Kubernetes configuration
 ## For minikube, set this to NodePort, elsewhere use LoadBalancer or ClusterIP
 ##
@@ -127,9 +122,8 @@ service:
 ## ref: http://kubernetes.io/docs/user-guide/compute-resources/
 ##
 resources:
-  requests:
-    memory: 512Mi
-    cpu: 300m
+  requests: {}
+  limits: {}
 
 ## Node labels for pod assignment
 ## Ref: https://kubernetes.io/docs/user-guide/node-selection/
