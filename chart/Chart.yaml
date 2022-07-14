@@ -1,7 +1,7 @@
 apiVersion: v1
 name: minetest
-version: 0.0.1
-appVersion: 0.0.1
+version: 0.0.2
+appVersion: 5.0.0
 description: Minetest server
 icon: https://cdn.icon-icons.com/icons2/1508/PNG/512/minetesticon_104240.png
 keywords:
