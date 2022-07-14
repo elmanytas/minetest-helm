@@ -68,7 +68,7 @@ spec:
     protocol: TCP
 
 ---
-apiVersion: extensions/v1beta1
+apiVersion: extensions/v1
 kind: Ingress
 metadata:
   name: {{ include "minetest.fullname" . }}-httpd
@@ -77,6 +77,9 @@ metadata:
     {{- toYaml . | nindent 8 }}
   {{- end }}
 spec:
+  {{- if .Values.ingress.className }}
+  ingressClassName: .Values.ingress.className
+  {{- end }}
   rules:
   - host: {{ .Values.ingress.hostname }}
     http:
@@ -84,6 +87,7 @@ spec:
       - path: /
         pathType: ImplementationSpecific
         backend:
-          serviceName: {{ include "minetest.fullname" . }}-httpd
-          servicePort: 80
+          service:
+            name: {{ include "minetest.fullname" . }}-httpd
+            port: 80
 {{- end }}

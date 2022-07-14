@@ -21,7 +21,7 @@ Report bugs here: https://github.com/elmanytas/minetest-kubernetes/issues
 
 ## Prerequisites
 
-- Kubernetes 1.12+
+- Kubernetes 1.19+
 - Helm 3
 - PV provisioner support in the underlying infrastructure
 
@@ -112,6 +112,7 @@ The following table lists the configurable parameters of the Zabbix Server chart
 | `affinity`                      | Map of node/pod affinities                                                                       | `{}`                                                         |
 | `podAnnotations`                | Pod annotations                                                                                  | `{}`                                                         |
 | `ingress.enabled`               | Set to true to enable ingress record generation to little instructions page                      | `false`                                                      |
+| `ingress.className`             | Ingress class name                                                                               | `""`                                                         |
 | `ingress.hostname`              | Default host for the ingress resource                                                            | `localhost`                                                  |
 | `ingress.annotations`           | Ingress annotations                                                                              | `[]`                                                         |
 | `persistence.accessMode`        | PVC Access Mode                                                                                  | `ReadWriteOnce`                                              |
