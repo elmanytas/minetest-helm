@@ -105,6 +105,10 @@ autojump: true
 #time_speed = 72
 timeSpeed: 72
 
+# provide a secret with a key "world.mt" and a valid world.mt file as value
+# leave empty if default should be used
+# worldmtSecretName: a8s-postgresql-worldmt
+
 ## Kubernetes configuration
 ## For minikube, set this to NodePort, elsewhere use LoadBalancer or ClusterIP
 ##

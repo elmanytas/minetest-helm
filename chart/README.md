@@ -76,47 +76,48 @@ The command removes all the Kubernetes components associated with the chart and 
 
 The following table lists the configurable parameters of the Zabbix Server chart and their default values.
 
-|            Parameter            |                                          Description                                             |                           Default                            |
-| --------------------------------| ------------------------------------------------------------------------------------------------ | ------------------------------------------------------------ |
-| `image.minetest.registry`       | Minetest image registry                                                                          | `docker.io`                                                  |
-| `image.minetest.repository`     | Minetest image name                                                                              | `linuxserver/minetest`                                       |
-| `image.minetest.tag`            | Minetest image tag                                                                               | `latest`                                                     |
-| `image.minetest.pullPolicy`     | Minetest image pull policy                                                                       | `Always`                                                     |
-| `image.minetest.pullSecrets`    | Minetest docker-registry secret names as an array                                                | `[]` (does not add image pull secrets to deployed pods)      |
-| `image.httpd.registry`          | httpd image registry                                                                             | `docker.io`                                                  |
-| `image.httpd.repository`        | httpd image name                                                                                 | `httpd`                                                      |
-| `image.httpd.tag`               | httpd image tag                                                                                  | `latest`                                                     |
-| `image.httpd.pullPolicy`        | httpd Image pull policy                                                                          | `IfNotPresent`                                               |
-| `image.httpd.pullSecrets`       | httpd docker-registry secret names as an array                                                   | `[]` (does not add image pull secrets to deployed pods)      |
-| `nameOverride.`                 | Strings to partially override fullname templates with a string (will prepend the release name)   | `nil`                                                        |
-| `fullnameOverride.`             | Strings to fully override fullname templates with a string                                       | `nil`                                                        |
-| `minetestPort`                  | Port to be exposed to the internet (30000 .. 32767)                                              | `30000`                                                      |
-| `minetestTimezone`              | Timezone                                                                                         | `Europe/Madrid`                                              |
-| `cliArgs`                       | Minetest cli arguments (example: `--gameid minetest`)                                            | `nil`                                                        |
-| `backup`                        | Backup all data before minetest start                                                            | `false`                                                      |
-| `setGame`                       | Configure game downloading/updating                                                              | `false`                                                      |
-| `gameUrl`                       | Game url to be downloaded                                                                        | `https://content.minetest.net/packages/Wuzzy/mineclone2`     |
-| `setOptions`                    | Configure minetest options                                                                       | `false`                                                      |
-| `enableDamage`                  | Enable players getting damage and dying                                                          | `true`                                                       |
-| `creativeMode`                  | Enable creative mode for new created maps.                                                       | `false`                                                      |
-| `freeMode`                      | Player is able to fly without being affected by gravity. "fly" privilege on the server required. | `false`                                                      |
-| `fastMode`                      | Fast movement (via the "special" key). This requires the "fast" privilege on the server.         | `true`                                                       |
-| `autojump`                      | Automatically jump up single-node obstacles.                                                     | `true`                                                       |
-| `tineSpeed`                     | Controls length of day/night cycle.                                                              | `72`                                                         |
-| `service.type`                  | Service type                                                                                     | `ClusterIP`                                                  |
-| `service.port`                  | Public UDP Port                                                                                  | `30000`                                                      |
-| `service.externalTrafficPolicy` | Enable client source IP preservation                                                             | `Cluster`                                                    |
-| `resources`                     | Configure resource requests and limits                                                           | `nil`                                                        |
-| `nodeSelector`                  | Node labels for pod assignment                                                                   | `{}`                                                         |
-| `tolerations`                   | List of node taints to tolerate                                                                  | `[]`                                                         |
-| `affinity`                      | Map of node/pod affinities                                                                       | `{}`                                                         |
-| `podAnnotations`                | Pod annotations                                                                                  | `{}`                                                         |
-| `ingress.enabled`               | Set to true to enable ingress record generation to little instructions page                      | `false`                                                      |
-| `ingress.className`             | Ingress class name                                                                               | `""`                                                         |
-| `ingress.hostname`              | Default host for the ingress resource                                                            | `localhost`                                                  |
-| `ingress.annotations`           | Ingress annotations                                                                              | `[]`                                                         |
-| `persistence.accessMode`        | PVC Access Mode                                                                                  | `ReadWriteOnce`                                              |
-| `persistence.size`              | PVC Storage Request                                                                              | `100Mi`                                                      |
+| Parameter                       | Description                                                                                      | Default                                                  |
+|---------------------------------|--------------------------------------------------------------------------------------------------|----------------------------------------------------------|
+| `image.minetest.registry`       | Minetest image registry                                                                          | `docker.io`                                              |
+| `image.minetest.repository`     | Minetest image name                                                                              | `linuxserver/minetest`                                   |
+| `image.minetest.tag`            | Minetest image tag                                                                               | `latest`                                                 |
+| `image.minetest.pullPolicy`     | Minetest image pull policy                                                                       | `Always`                                                 |
+| `image.minetest.pullSecrets`    | Minetest docker-registry secret names as an array                                                | `[]` (does not add image pull secrets to deployed pods)  |
+| `image.httpd.registry`          | httpd image registry                                                                             | `docker.io`                                              |
+| `image.httpd.repository`        | httpd image name                                                                                 | `httpd`                                                  |
+| `image.httpd.tag`               | httpd image tag                                                                                  | `latest`                                                 |
+| `image.httpd.pullPolicy`        | httpd Image pull policy                                                                          | `IfNotPresent`                                           |
+| `image.httpd.pullSecrets`       | httpd docker-registry secret names as an array                                                   | `[]` (does not add image pull secrets to deployed pods)  |
+| `nameOverride.`                 | Strings to partially override fullname templates with a string (will prepend the release name)   | `nil`                                                    |
+| `fullnameOverride.`             | Strings to fully override fullname templates with a string                                       | `nil`                                                    |
+| `minetestPort`                  | Port to be exposed to the internet (30000 .. 32767)                                              | `30000`                                                  |
+| `minetestTimezone`              | Timezone                                                                                         | `Europe/Madrid`                                          |
+| `cliArgs`                       | Minetest cli arguments (example: `--gameid minetest`)                                            | `nil`                                                    |
+| `backup`                        | Backup all data before minetest start                                                            | `false`                                                  |
+| `setGame`                       | Configure game downloading/updating                                                              | `false`                                                  |
+| `gameUrl`                       | Game url to be downloaded                                                                        | `https://content.minetest.net/packages/Wuzzy/mineclone2` |
+| `setOptions`                    | Configure minetest options                                                                       | `false`                                                  |
+| `enableDamage`                  | Enable players getting damage and dying                                                          | `true`                                                   |
+| `creativeMode`                  | Enable creative mode for new created maps.                                                       | `false`                                                  |
+| `freeMode`                      | Player is able to fly without being affected by gravity. "fly" privilege on the server required. | `false`                                                  |
+| `fastMode`                      | Fast movement (via the "special" key). This requires the "fast" privilege on the server.         | `true`                                                   |
+| `autojump`                      | Automatically jump up single-node obstacles.                                                     | `true`                                                   |
+| `tineSpeed`                     | Controls length of day/night cycle.                                                              | `72`                                                     |
+| `worldmtSecretName`             | Name of a secret that contains a key `world.mt` and a valid world.mt file as value.              | `worldmt-postgresql`                                     |
+| `service.type`                  | Service type                                                                                     | `ClusterIP`                                              |
+| `service.port`                  | Public UDP Port                                                                                  | `30000`                                                  |
+| `service.externalTrafficPolicy` | Enable client source IP preservation                                                             | `Cluster`                                                |
+| `resources`                     | Configure resource requests and limits                                                           | `nil`                                                    |
+| `nodeSelector`                  | Node labels for pod assignment                                                                   | `{}`                                                     |
+| `tolerations`                   | List of node taints to tolerate                                                                  | `[]`                                                     |
+| `affinity`                      | Map of node/pod affinities                                                                       | `{}`                                                     |
+| `podAnnotations`                | Pod annotations                                                                                  | `{}`                                                     |
+| `ingress.enabled`               | Set to true to enable ingress record generation to little instructions page                      | `false`                                                  |
+| `ingress.className`             | Ingress class name                                                                               | `""`                                                     |
+| `ingress.hostname`              | Default host for the ingress resource                                                            | `localhost`                                              |
+| `ingress.annotations`           | Ingress annotations                                                                              | `[]`                                                     |
+| `persistence.accessMode`        | PVC Access Mode                                                                                  | `ReadWriteOnce`                                          |
+| `persistence.size`              | PVC Storage Request                                                                              | `100Mi`                                                  |
 
 Specify each parameter using the `--set key=value[,key=value]` argument to `helm install`. For example,
 
