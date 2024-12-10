@@ -84,6 +84,12 @@ spec:
           - name: minetest-config
             mountPath: /config/.minetest
             subPath: .minetest
+          {{- if .Values.worldmtSecretName }}
+          - name: minetest-worldmt
+            readOnly: true
+            mountPath: "/config/.minetest/worlds/world/"
+            subPath: world.mt
+          {{- end }}
         env:
           - name: TZ
             value: "{{ default .Values.minetestTimezone }}"
@@ -102,13 +108,20 @@ spec:
         - name: minetest-config
           persistentVolumeClaim:
             claimName: {{ include "minetest.fullname" . }}-config
+      {{- if .Values.worldmtSecretName }}
+        - name: minetest-worldmt
+          secret:
+            secretName: {{ .Values.worldmtSecretName }}
+            items:
+              - key: world.mt
+                path: world.mt
+      {{- end }}
       restartPolicy: Always
       terminationGracePeriodSeconds: 60
   strategy:
     type: Recreate
 
 ---
-
 apiVersion: v1
 kind: Service
 metadata:
