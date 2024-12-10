@@ -50,7 +50,7 @@ spec:
           - mkdir -p /config/.minetest/games/$(echo {{ .Values.gameUrl }} | awk -F "/" '{print $(NF)}');
             cd       /config/.minetest/games/$(echo {{ .Values.gameUrl }} | awk -F "/" '{print $(NF)}');
             curl -L -o game.zip {{ .Values.gameUrl }}/download;
-            unzip game.zip;
+            unzip game.zip; mv $(find . -mindepth 1 -maxdepth 1 -type d)/* .; rmdir $(find . -mindepth 1 -maxdepth 1 -type d);
             mkdir -p /config/.minetest/main-config/;
             echo "default_game = $(echo {{ .Values.gameUrl }} | awk -F "/" '{print $(NF)}')" > /config/.minetest/main-config/minetest.conf
         volumeMounts:
@@ -116,6 +116,10 @@ metadata:
   labels:
     app: {{ include "minetest.fullname" . }}
     component: minetest
+  annotations:
+    service.beta.kubernetes.io/aws-load-balancer-type: "nlb"
+    service.beta.kubernetes.io/aws-load-balancer-scheme: "internet-facing"
+    service.beta.kubernetes.io/aws-load-balancer-backend-protocol: "udp"
 spec:
   type: {{ .Values.service.type }}
   {{- if (or (eq .Values.service.type "LoadBalancer") (eq .Values.service.type "NodePort")) }}
