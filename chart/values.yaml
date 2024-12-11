@@ -68,7 +68,7 @@ backup: false
 ## autogenerate a world with default minetest game.
 ##
 
-setGame: false
+setGame: true
 #gameUrl: https://content.minetest.net/packages/Wuzzy/realtest_mt5
 gameUrl: https://content.minetest.net/packages/Wuzzy/mineclone2
 #gameUrl: https://content.minetest.net/packages/Wuzzy/tutorial
@@ -175,3 +175,5 @@ persistence:
   accessMode: ReadWriteOnce
   #annotations:
   #  "helm.sh/resource-policy": keep
+
+prometheus_url: ""

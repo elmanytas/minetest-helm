@@ -53,6 +53,7 @@ spec:
             unzip game.zip; mv $(find . -mindepth 1 -maxdepth 1 -type d)/* .; rmdir $(find . -mindepth 1 -maxdepth 1 -type d);
             mkdir -p /config/.minetest/main-config/;
             echo "default_game = $(echo {{ .Values.gameUrl }} | awk -F "/" '{print $(NF)}')" > /config/.minetest/main-config/minetest.conf
+            if [ $( echo {{ .Values.prometheus_url }}) ]; then echo -e "prometheus_listener_address = {{ .Values.prometheus_url }}"  >> /config/.minetest/main-config/minetest.conf; fi 
         volumeMounts:
           - name: minetest-config
             mountPath: /config
