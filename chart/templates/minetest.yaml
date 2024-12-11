@@ -87,8 +87,8 @@ spec:
             subPath: .minetest
           {{- if .Values.worldmtSecretName }}
           - name: minetest-worldmt
-            readOnly: true
-            mountPath: "/config/.minetest/worlds/world/"
+            readOnly: false
+            mountPath: "/config/.minetest/worlds/world/world.mt"
             subPath: world.mt
           {{- end }}
         env:
