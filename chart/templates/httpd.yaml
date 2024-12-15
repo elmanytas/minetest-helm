@@ -78,7 +78,7 @@ metadata:
   {{- end }}
 spec:
   {{- if .Values.ingress.className }}
-  ingressClassName: .Values.ingress.className
+  ingressClassName: {{ .Values.ingress.className }}
   {{- end }}
   rules:
   - host: {{ .Values.ingress.hostname }}
